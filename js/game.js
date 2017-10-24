@@ -6,6 +6,7 @@
 	let doBattle = 1;
 	let randomNum;
 	let damageDealt = 0;
+	const moreHealthPoints = 10;
 
 	//Function to return integer 1,2,3,4,5
 	let getDamage = () => {
@@ -15,9 +16,9 @@
 	//Prompt user for input to play game and user name
 	const startGame = () => {
   
-	  	var wantToPlay = prompt("Do you want to challenge the mighty Grant Chirpus? Y or N");
+	  	wantToPlay = window.confirm("Do you want to challenge the mighty Grant Chirpus?");
 	  
-		if (wantToPlay.toUpperCase() === "Y") {
+		if (wantToPlay) {
 			userName = prompt("What is your name, gladiator?");
 			return true;
 		}
@@ -27,9 +28,9 @@
 	};
 
 	let startCombat = () => {
-		var continueCombat = prompt("Do you want to continue to fight against the mighty Grant Chirpus? Y or N");
+		var continueCombat = window.confirm("Do you want to continue to fight against the mighty Grant Chirpus?");
 
-		if (continueCombat.toUpperCase() === "Y") {
+		if (continueCombat) {
 			return true;
 		} else {
 			console.log("What a chicken! Bwaaaaak!");
@@ -66,16 +67,17 @@
 				console.log("You ran away from your fight with Grant Chirpus. Game Over.");
 				break;
 			}
-			//If user did not die, give them 1 more vistory and reset Grant's HP to 10
+			//If user did not die, give them 1 more vistory and reset Grant's HP
 			else {
 				userWins++;
 				console.log("Congratulations, hero, you have defeated the indefatigueable Grant Chirpus " + userWins + " times.");
-				grantHealthPoints = 10;
+				grantHealthPoints = moreHealthPoints;
 			}
 		}	
   
-  		while (userWins < 3 && doBattle);
+  		while ((userWins < 3 && doBattle));
 	}
+
 
 	if (userWins === 3) {
   		console.log(userName + ", you have slain Grant 'apparently-not-as-strong-as-we-thought' Chirpus once and for all!");
@@ -83,4 +85,5 @@
   		//If user doesn't want to fight, display taunt
   		console.log("What a little chicken.")
 	}
+	
 })();
