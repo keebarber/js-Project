@@ -43,7 +43,7 @@ if (startGame()) {
   
   do {
     if (startCombat()) {
-      while (userHealthPoints > 0 && grantHealthPoints > 0) {
+      while (userHealthPoints > 0 && grantHealthPoints > 0 && doBattle) {
     
 
     
@@ -71,7 +71,7 @@ if(userHealthPoints < 1) {
   break;
 }
 
-else if (userHealthPoints > 0 && !doBattle) {
+else if (userHealthPoints > 0 || !doBattle) {
   console.log("You ran away from your fight with Grant Chirpus. Game Over.");
   break;
 }
