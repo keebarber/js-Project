@@ -42,7 +42,7 @@
   
   		do {
 
-      		while (userHealthPoints > 0 && grantHealthPoints > 0) {
+      		while (userHealthPoints > 0 && grantHealthPoints > 0 && doBattle) {
     
 			    randomNum = Math.random(0,1);
 			    damageDealt = getDamage();
@@ -63,7 +63,7 @@
 			if(userHealthPoints < 1) {
 	  			console.log("\r" + "You won " + userWins + " against the invincible Grant Chirpus but have lost the war.");
 				break;
-			} else if (userHealthPoints > 0 && !doBattle) {
+			} else if (userHealthPoints > 0 || !doBattle) {
 				console.log("You ran away from your fight with Grant Chirpus. Game Over.");
 				break;
 			}
