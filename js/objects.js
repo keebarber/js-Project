@@ -4,54 +4,96 @@
 			this.name = name;
 			this.health = 10;
 			this.wins = 0;
-			this.damage = 5;
+			this.damage = 3;
+      this.maxHealth = 10;
 		}
 		
+
+    //Get's attack damage for each character
 	getDamage() {
-	  console.log(`${this.name} health points: ${this.health}`);
     return Math.floor(Math.random()* this.damage + 1);
   }
 		
+    //Calls attack function to do damage when in battle
 	attack() {
-		this.health -= this.getDamage();
+    let damageDealt = this.getDamage()
+		this.health -= damageDealt;
 		console.log(`${this.name} health points: ${this.health}`);
   		return this.health;
 	}
 	
-	
+	 
+   //Default setting for CPU is to heal to max health
 	heal() {
-		this.health = 10;
+		this.health = this.maxHealth;
 		console.log(`${this.name} health points: ${this.health}`);
   			return this.health;
   		}
 }
+
+  //Creates the player class using similar functions to parent class: character
 
 class player extends character {
   constructor(name) {
 	  super(name);
 	  this.name = name;
 	  this.health = 40;
-	  this.damage = 3;
+	  this.damage = 5;
 	  this.healPower = 10;
 	  this.healCount = 0;
+    this.maxHealth = 40;
   }
-    getHeal() {
+
+      //Randomly returns amount between 1-10HP to heal
+  getHeal() {
 	  console.log(`${this.name} health points: ${this.health}`);
     return Math.floor(Math.random()* this.healPower + 1);
   }
   
+    //Function called to heal. Checks if character hasn't used all their heals first
   heal() {
     if (this.healCount === 2) {
       console.log("Sorry, you've used all your potions!");
     }
+
+      //If player still has heals, function executes
     else {
-		  this.health += this.getHeal();
+      let healthRestored = this.getHeal();
+		  let newHealth = this.health + healthRestored;
+     
+
+        //Checks new health with max health and returns max health is new health is over player max health
+      if (newHealth > this.maxHealth) {
+        let healthRestored = this.maxHealth - this.health;
+        this.health = this.maxHealth;
+        console.log(`${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`);
+      }
+        //Otherwise heals player based on getHeal function return value
+      else {
+        this.health = newHealth;
+            console.log(`${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`);
+      }
+        //Checks amount of times healed and lets player know how many potions remain
 		  this.healCount++;
+      switch(this.healCount) {
+        case 1:
+          console.log(`${this.name} has used 1 potion and has 1 remaining.`);
+          break;
+        case 2: 
+          console.log(`${this.name} has used 2 potions and has 0 remaining.`);
+          break;
+        default:
+          console.log("This is the default potion message!");
+          break;
+        }
   			return this.health;
-  		}
+      }
+  		
   }
   
 }
+
+    // MAIN GAME FUNCTIONS
 
 const startGame = () => {
   
@@ -78,15 +120,19 @@ let startCombat = () => {
 };
 
 const attackHeal = () => {
-	let choice = prompt("Would you like to Attack or Heal? A or H");
+	let choice = window.confirm("Would you like to Attack or Heal? OK: Attack - Cancel: Heal");
 
-	if (choice.toUpperCase() === "A") {
+
+	if (choice) {
 		return true;
 	}
-	else {
+	else { 
 		return false;
 	}
 };
+
+
+// MAIN GAME STATE
 
 
 if (startGame()) {
@@ -99,8 +145,7 @@ if (startGame()) {
       while (playerOne.health > 0 && cpu.health > 0 && doBattle) {
     
     let randomNum = Math.random(0,1);
-    
- attackChoice = attackHeal();
+    attackChoice = attackHeal();
 
     if (attackChoice) {
 
@@ -135,7 +180,9 @@ else if (playerOne.health > 0 && !doBattle) {
 else {
   playerOne.wins++;
   console.log("Congratulations, hero, you have defeated the indefatigueable Grant Chirpus " + playerOne.wins + " times.");
-  cpu.heal();
+  if (playerOne.wins < 3) {
+    cpu.heal();
+    }
   }
 }
   
@@ -143,29 +190,12 @@ else {
   while (playerOne.wins < 3 && doBattle);
 
   if (playerOne.wins === 3) {
-  console.log(playerOne.name + ", you have slain Grant 'apparently-not-as-strong-as-we-thought' Chirpus once and for all!");
+   console.log(playerOne.name + ", you have slain Grant 'apparently-not-as-strong-as-we-thought' Chirpus once and for all!");
   }
 }
-
 
 //If user doesn't want to fight, display taunt
 else {
   console.log("What a little chicken.");
 }
 })();
-
-
-
-// var cpu = new character("Grant Chirpus");
-// var playerOne = new player("Keenan");
-// console.log(playerOne.attack());
-// console.log(playerOne.getDamage());
-// console.log(playerOne.attack());
-// console.log(playerOne.attack());
-// console.log(playerOne.attack());
-// console.log(cpu.getDamage());
-// console.log(cpu.attack());
-// console.log(cpu.heal());
-// console.log(playerOne.heal());
-// console.log(playerOne.heal());
-
