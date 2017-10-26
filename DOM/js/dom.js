@@ -17,15 +17,19 @@ playgame.onclick = function startGame() {
   
   if (wantToPlay) {
     // hide start button and show playButtons
-    var startEl = document.getElementById('startButton');
-    startEl.style.display = "none";
+    document.getElementById('startButton').style.display = "none";
+    document.getElementById('attackbutton').style.display = "inline";
+    document.getElementById('healbutton').style.display = "inline";
+    document.getElementById('quitbutton').style.display = "inline";
 
-    var playEls = document.getElementsByClassName('playButtons');
-    for (var i = 0; i < playEls.length; i++){
-      playEls[i].style.display = "inline";
-    }
-    // create the objects
+    // keep this code temporarily in case we want to change buttons to have classes instead of ids
+    // var playEls = document.getElementsByClassName('playButtons');
+    // for (var i = 0; i < playEls.length; i++){
+    //   playEls[i].style.display = "inline";
+    // }
 
+
+  // create the objects inside startGame
   class character {
     constructor(name) {
       this.name = name;
@@ -120,18 +124,6 @@ playgame.onclick = function startGame() {
 
   updateGame();
 
-  // document.getElementById("playername").innerHTML = playerOne.name;
-  // document.getElementById("playerhealth").innerHTML = `${playerOne.name} Health: ${playerOne.health}`;
-  // document.getElementById("playerheals").innerHTML = `${playerOne.name} Heals Used: ${playerOne.healCount}`;
-  // document.getElementById("userwins").innerHTML = `${playerOne.name} Wins: ${playerOne.wins}`;
-
-  // document.getElementById("cpuname").innerHTML = cpu.name;
-  // document.getElementById("cpuhealth").innerHTML = `${cpu.name} Health: ${cpu.health}`;
-
-  //   document.getElementById("UI").innerHTML = "Let's Battle!";
-
-
-    
   } else {
     document.getElementById("UI").innerHTML = "What a little chicken! Bwaaak!";
     return false;
@@ -180,7 +172,7 @@ attackbutton.onclick = function() {
   } else {
     cpu.attack();
   }
-  updateGame();
+ // updateGame();
 }
 
 //  Initializes the heal button
@@ -190,7 +182,7 @@ healbutton.onclick = function() {
 
   playerOne.heal();
 
-  updateGame();
+  // updateGame();
 }
 
 // Initializes the quit game button
@@ -203,8 +195,6 @@ healbutton.onclick = function() {
 
 // }
 
-
-
 function updateGame() {
 
   document.getElementById("playername").innerHTML = playerOne.name;
@@ -214,43 +204,23 @@ function updateGame() {
 
   document.getElementById("cpuname").innerHTML = cpu.name;
   document.getElementById("cpuhealth").innerHTML = `${cpu.name} Health: ${cpu.health}`;
+
+  if( playerOne.health < 1 || cpu.health < 1) {
+    if (playerOne.health < 1){
+        document.getElementById("UI").innerHTML = `${playerOne.name} has been killed!`;
+    } else {
+        document.getElementById("UI").innerHTML = `${cpu.name} has been vanquished!`;
+    }
+    // this should be part of the update process for wins!
+  }
+ 
+
 }
 // MAIN GAME STATE
-
-
-/* if (startGame()) {
-
-
-  var playerOne = new player(prompt("What is your name, gladiator?"));
-  var cpu = new character("Grant Chirpus");
-  let doBattle = 1;
-
-  do {
-      while (playerOne.health > 0 && cpu.health > 0 && doBattle) {
-    
-    let randomNum = Math.random(0,1);
-    attackChoice = attackHeal();
-
-    if (attackChoice) {
-
-    	if (randomNum > 0.5) {
-     	 playerOne.attack();
-    	}
-  	  else {
-      	cpu.attack();
- 	 }
-}
-
-	else {
-		playerOne.heal();
-	}
-  
-  doBattle = startCombat();
-  }
-
   
   //Breaks out of while loop when one player has reached 0 HP
 //Checks user to see if GAME OVER
+/*
 if( playerOne.health < 1) {
   console.log("\r" + "You won " + playerOne.wins + " against the invincible Grant Chirpus but have lost the war.");
   break;

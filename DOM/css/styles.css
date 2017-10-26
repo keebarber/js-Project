@@ -11,7 +11,7 @@ button{
 	width: 128px;
 	font-size: 1.5em;
 }
-.playButtons{
+#attackbutton, #healbutton, #quitbutton{
 	display: none;
 }
 
