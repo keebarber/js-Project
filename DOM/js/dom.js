@@ -3,7 +3,7 @@
   let playerOne;
   let cpu;
   let doBattle;
-  // if these vars are declared in startGame, they are not accessible in other functions
+  // if these vars are declared in startGame(), they are not accessible in other functions
 
 
     // MAIN GAME FUNCTIONS
@@ -118,43 +118,33 @@ function startGame() {
 }
 // end of startGame function
 
-// called by ATTACK button, determines who will attack
-function selectAttack(){
+// called by playButtons with arguments
 
-  //if (playerOne.health > 0 && cpu.health > 0 && doBattle) {
-    let randomNum = Math.random(0,1);
-    if (randomNum > 0.5) {
-     playerOne.attack();
+function startCombat(action){
+  if (playerOne.health > 0 && cpu.health > 0 && doBattle) {
+    //console.log(action);
+    if(action === "attack"){
+      selectAttack();
+    } else if(action === "heal"){
+      playerOne.heal();
     } else {
-      cpu.attack();
+      // quit
+      console.log("What a little chicken.");
     }
-//}
-  // else what? game over?
-} 
-
-let startCombat = () => {
-   var continueCombat = window.confirm("Do you want to continue to fight against the mighty Grant Chirpus?");
-  
-  if (continueCombat) {
-   return true;
-}
-  else {
-    console.log("What a chicken! Bwaaaaak!");
-  return false;
+  } else {
+    console.log("game over");
   }
-};
+}
 
-const attackHeal = () => {
-	let choice = window.confirm("Would you like to Attack or Heal? OK: Attack - Cancel: Heal");
-
-
-	if (choice) {
-		return true;
-	}
-	else { 
-		return false;
-	}
-};
+// called by startCombat function via ATTACK btn, determines who will attack
+function selectAttack(){
+  let randomNum = Math.random(0,1);
+  if (randomNum > 0.5) {
+   playerOne.attack();
+  } else {
+    cpu.attack();
+  }
+} 
 
 
 // MAIN GAME STATE
