@@ -11,10 +11,7 @@ button{
 	width: 128px;
 	font-size: 1.5em;
 }
-.playButtons{
+
+.buttons {
 	display: none;
 }
-
-/*.UI > p {
-	display: inline-block;
-}*/
