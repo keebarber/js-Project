@@ -1,4 +1,4 @@
-
+  
 // declare global variables
   let playerOne;
   let cpu;
@@ -8,8 +8,12 @@
 
     // MAIN GAME FUNCTIONS
 
-function startGame() {
-  var wantToPlay = window.confirm("Do you want to challenge the mighty Grant Chirpus?");
+var playgame = document.getElementById("startButton");
+
+playgame.onclick = function startGame() {
+  var wantToPlay = window.confirm("Are you sure you want to challenge the mighty Grant Chirpus?");
+  var UI = document.getElementById("UI");
+
   
   if (wantToPlay) {
     // hide start button and show playButtons
@@ -41,6 +45,8 @@ function startGame() {
       let damageDealt = this.getDamage()
       this.health -= damageDealt;
       console.log(`${this.name} health points: ${this.health}`);
+      document.getElementById("UI").innerHTML = `${this.name} attacked and did ${damageDealt} damage!`;
+      updateGame();
         return this.health;
     }
    
@@ -48,6 +54,7 @@ function startGame() {
     heal() {
       this.health = this.maxHealth;
       console.log(`${this.name} health points: ${this.health}`);
+      updateGame();
           return this.health;
     }
   }
@@ -110,26 +117,41 @@ function startGame() {
   playerOne = new player(prompt("What is your name, gladiator?"));
   cpu = new character("Grant Chirpus");
   doBattle = 1;
+
+  updateGame();
+
+  // document.getElementById("playername").innerHTML = playerOne.name;
+  // document.getElementById("playerhealth").innerHTML = `${playerOne.name} Health: ${playerOne.health}`;
+  // document.getElementById("playerheals").innerHTML = `${playerOne.name} Heals Used: ${playerOne.healCount}`;
+  // document.getElementById("userwins").innerHTML = `${playerOne.name} Wins: ${playerOne.wins}`;
+
+  // document.getElementById("cpuname").innerHTML = cpu.name;
+  // document.getElementById("cpuhealth").innerHTML = `${cpu.name} Health: ${cpu.health}`;
+
+  //   document.getElementById("UI").innerHTML = "Let's Battle!";
+
+
     
   } else {
+    document.getElementById("UI").innerHTML = "What a little chicken! Bwaaak!";
     return false;
     // display message, keep start button visible
   }
 }
 // end of startGame function
 
+
+
 // called by playButtons with arguments
 
 function startCombat(action){
   if (playerOne.health > 0 && cpu.health > 0 && doBattle) {
-    //console.log(action);
-    if(action === "attack"){
-      selectAttack();
-    } else if(action === "heal"){
-      playerOne.heal();
-    } else {
-      // quit
+    console.log(action);
+    if(action === "quit"){
       console.log("What a little chicken.");
+    }
+    else if (action === "heal"){
+      playerOne.heal();
     }
   } else {
     console.log("game over");
@@ -137,16 +159,62 @@ function startCombat(action){
 }
 
 // called by startCombat function via ATTACK btn, determines who will attack
-function selectAttack(){
+// function selectAttack(){
+//   let randomNum = Math.random(0,1);
+//   if (randomNum > 0.5) {
+//    playerOne.attack();
+//   } else {
+//     cpu.attack();
+//   }
+// } 
+
+
+//  Initializes the attack button
+var attackbutton = document.getElementById("attackbutton");
+
+attackbutton.onclick = function() {
+
   let randomNum = Math.random(0,1);
   if (randomNum > 0.5) {
    playerOne.attack();
   } else {
     cpu.attack();
   }
-} 
+  updateGame();
+}
+
+//  Initializes the heal button
+var healbutton = document.getElementById("healbutton");
+
+healbutton.onclick = function() {
+
+  playerOne.heal();
+
+  updateGame();
+}
+
+// Initializes the quit game button
+// var quitbutton = document.getElementById("quitbutton");
+
+// quitbutton.onclick = function() {
+
+//   document.getElementById("UI").innerHTML = `You decided to run away from Grant Chirpus to live to die another day.`;
+//   updateGame();
+
+// }
 
 
+
+function updateGame() {
+
+  document.getElementById("playername").innerHTML = playerOne.name;
+  document.getElementById("playerhealth").innerHTML = `${playerOne.name} Health: ${playerOne.health}`;
+  document.getElementById("playerheals").innerHTML = `${playerOne.name} Heals Used: ${playerOne.healCount}`;
+  document.getElementById("userwins").innerHTML = `${playerOne.name} Wins: ${playerOne.wins}`;
+
+  document.getElementById("cpuname").innerHTML = cpu.name;
+  document.getElementById("cpuhealth").innerHTML = `${cpu.name} Health: ${cpu.health}`;
+}
 // MAIN GAME STATE
 
 
