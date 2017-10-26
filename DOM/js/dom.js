@@ -1,4 +1,10 @@
 
+// declare global variables
+  let playerOne;
+  let cpu;
+  let doBattle;
+  // if these vars are declared in startGame, they are not accessible in other functions
+
 
     // MAIN GAME FUNCTIONS
 
@@ -46,70 +52,85 @@ function startGame() {
     }
   }
 
-//Creates the player class using similar functions to parent class: character
+  //Creates the player class using similar functions to parent class: character
 
-class player extends character {
-  constructor(name) {
-    super(name);
-    this.name = name;
-    this.health = 40;
-    this.damage = 5;
-    this.healPower = 10;
-    this.healCount = 0;
-    this.maxHealth = 40;
-  }
+  class player extends character {
+    constructor(name) {
+      super(name);
+      this.name = name;
+      this.health = 40;
+      this.damage = 5;
+      this.healPower = 10;
+      this.healCount = 0;
+      this.maxHealth = 40;
+    }
 
-  //Randomly returns amount between 1-10HP to heal
-  getHeal() {
-    console.log(`${this.name} health points: ${this.health}`);
-    return Math.floor(Math.random()* this.healPower + 1);
-  }
-  
-  //Function called to heal. Checks if character hasn't used all their heals first
-  heal() {
-    if (this.healCount === 2) {
-      console.log("Sorry, you've used all your potions!");
-    } else {
-      //If player still has heals, function executes
-      let healthRestored = this.getHeal();
-      let newHealth = this.health + healthRestored;
-     
-      //Checks new health with max health and returns max health is new health is over player max health
-      if (newHealth > this.maxHealth) {
-        let healthRestored = this.maxHealth - this.health;
-        this.health = this.maxHealth;
-        console.log(`${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`);
+    //Randomly returns amount between 1-10HP to heal
+    getHeal() {
+      console.log(`${this.name} health points: ${this.health}`);
+      return Math.floor(Math.random()* this.healPower + 1);
+    }
+    
+    //Function called to heal. Checks if character hasn't used all their heals first
+    heal() {
+      if (this.healCount === 2) {
+        console.log("Sorry, you've used all your potions!");
       } else {
-        //Otherwise heals player based on getHeal function return value
-        this.health = newHealth;
-            console.log(`${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`);
+        //If player still has heals, function executes
+        let healthRestored = this.getHeal();
+        let newHealth = this.health + healthRestored;
+       
+        //Checks new health with max health and returns max health is new health is over player max health
+        if (newHealth > this.maxHealth) {
+          let healthRestored = this.maxHealth - this.health;
+          this.health = this.maxHealth;
+          console.log(`${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`);
+        } else {
+          //Otherwise heals player based on getHeal function return value
+          this.health = newHealth;
+              console.log(`${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`);
+        }
+        //Checks amount of times healed and lets player know how many potions remain
+        this.healCount++;
+        switch(this.healCount) {
+          case 1:
+            console.log(`${this.name} has used 1 potion and has 1 remaining.`);
+            break;
+          case 2: 
+            console.log(`${this.name} has used 2 potions and has 0 remaining.`);
+            break;
+          default:
+            console.log("This is the default potion message!");
+            break;
+        }
+        return this.health;
       }
-      //Checks amount of times healed and lets player know how many potions remain
-      this.healCount++;
-      switch(this.healCount) {
-        case 1:
-          console.log(`${this.name} has used 1 potion and has 1 remaining.`);
-          break;
-        case 2: 
-          console.log(`${this.name} has used 2 potions and has 0 remaining.`);
-          break;
-        default:
-          console.log("This is the default potion message!");
-          break;
-      }
-      return this.health;
     }
   }
-}
-  var playerOne = new player(prompt("What is your name, gladiator?"));
-  var cpu = new character("Grant Chirpus");
-  let doBattle = 1;
+  playerOne = new player(prompt("What is your name, gladiator?"));
+  cpu = new character("Grant Chirpus");
+  doBattle = 1;
     
   } else {
     return false;
     // display message, keep start button visible
   }
-};
+}
+// end of startGame function
+
+// called by ATTACK button, determines who will attack
+function selectAttack(){
+
+  //if (playerOne.health > 0 && cpu.health > 0 && doBattle) {
+    let randomNum = Math.random(0,1);
+    if (randomNum > 0.5) {
+     playerOne.attack();
+    } else {
+      cpu.attack();
+    }
+//}
+  // else what? game over?
+} 
 
 let startCombat = () => {
    var continueCombat = window.confirm("Do you want to continue to fight against the mighty Grant Chirpus?");
