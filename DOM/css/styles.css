@@ -1,0 +1,14 @@
+body{
+	background-color: #99cfff;
+	font-family: Verdana, sans-serif;
+	margin: 1em;
+}
+
+button{
+	background-color: navy;
+	color: white;
+	border: 2px solid;
+}
+.playButtons{
+	display: none;
+}
