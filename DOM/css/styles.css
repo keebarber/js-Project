@@ -4,20 +4,57 @@ body{
 	margin: 1em;
 }
 
+#gameContent {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#start {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+
+}
+
 button{
 	background-color: navy;
 	color: white;
 	border: 2px solid navy;
-	width: 128px;
+	border-radius: 10px;
+	width: 250px;
 	font-size: 1.5em;
+	height: 150px;
+	display: flex;
+	justify-content: center;
+	margin: 20px;
+
 }
-<<<<<<< HEAD
-=======
-#attackbutton, #healbutton, #quitbutton{
-	display: none;
-}
->>>>>>> 67ae9b9fc6d950ffea0aefcaa15be10deae9e655
 
 .buttons {
 	display: none;
+	width: 100%;
+	justify-content: center;
+}	
+
+.interface {
+	display: none;
+	justify-content: center;
+}
+
+#playerinfo {
+	width: 400px;
+	text-align: center;
+	border: 2px solid white;
+	border-radius: 10px;
+	margin: 5px;
+}
+
+#cpuinfo {
+	width: 400px;
+	text-align: center;
+	border: 2px solid white;
+	border-radius: 10px;
+	margin: 5px;
 }

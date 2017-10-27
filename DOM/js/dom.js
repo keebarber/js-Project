@@ -3,41 +3,35 @@
   let playerOne;
   let cpu;
   let doBattle = 0;
-  // if these vars are declared in startGame(), they are not accessible in other functions
 
 
-    // MAIN GAME FUNCTIONS
+// MAIN GAME FUNCTIONS
 
+//  Sets StartGame function to begin game by using 'Start' button
 var playgame = document.getElementById("startButton");
 
 playgame.onclick = function startGame() {
   var wantToPlay = window.confirm("Are you sure you want to challenge the mighty Grant Chirpus?");
   var UI = document.getElementById("UI");
 
-  
+
+  //  Checks if the user wants to play the game. Initilizes objects if yes, quits game if no  
   if (wantToPlay) {
     // hide start button and show playButtons
-    document.getElementById('startButton').style.display = "none";
-    document.getElementById('attackbutton').style.display = "inline";
-    document.getElementById('healbutton').style.display = "inline";
-    document.getElementById('quitbutton').style.display = "inline";
+    var startEl = document.getElementById('startButton');
+    startEl.style.display = "none";
 
-    // keep this code temporarily in case we want to change buttons to have classes instead of ids
-    // var playEls = document.getElementsByClassName('playButtons');
-    // for (var i = 0; i < playEls.length; i++){
-    //   playEls[i].style.display = "inline";
-    // }
-
-<<<<<<< HEAD
     var playEls = document.getElementsByClassName('buttons');
     for (var i = 0; i < playEls.length; i++){
-      playEls[i].style.display = "inline";
+      playEls[i].style.display = "flex";
     }
-    // create the objects
-=======
->>>>>>> 67ae9b9fc6d950ffea0aefcaa15be10deae9e655
-
-  // create the objects inside startGame
+    
+    let infoEls = document.getElementsByClassName('interface');
+      for (let i = 0; i < infoEls.length; i++){
+        infoEls[i].style.display = "flex";
+    }
+    
+  // Creates character class with common functions/properties for players to share
   class character {
     constructor(name) {
       this.name = name;
@@ -52,12 +46,17 @@ playgame.onclick = function startGame() {
       return Math.floor(Math.random()* this.damage + 1);
     }
       
-    //Calls attack function to do damage when in battle
+    //Calls attack function to do damage when in battle. Calculates damages and prints result to screen
     attack() {
       let damageDealt = this.getDamage()
       this.health -= damageDealt;
       console.log(`${this.name} health points: ${this.health}`);
-      document.getElementById("UI").innerHTML = `${this.name} attacked and did ${damageDealt} damage!`;
+      if (this.name === playerOne.name) {
+            document.getElementById("UI").innerHTML = `${cpu.name} attacked and did ${damageDealt} damage!`;
+      }
+      else {
+          document.getElementById("UI").innerHTML = `${playerOne.name} attacked and did ${damageDealt} damage!`;
+      }
       updateGame();
         return this.health;
     }
@@ -72,7 +71,6 @@ playgame.onclick = function startGame() {
   }
 
   //Creates the player class using similar functions to parent class: character
-
   class player extends character {
     constructor(name) {
       super(name);
@@ -84,7 +82,7 @@ playgame.onclick = function startGame() {
       this.maxHealth = 40;
     }
 
-    //Randomly returns amount between 1-10HP to heal
+    //Randomly returns amount between 1-10HP to heal and outputs result
     getHeal() {
       console.log(`${this.name} health points: ${this.health}`);
       return Math.floor(Math.random()* this.healPower + 1);
@@ -95,6 +93,7 @@ playgame.onclick = function startGame() {
       if (this.healCount === 2) {
         document.getElementById("UI").innerHTML = "Sorry, you've used all your potions!";
       } else {
+
         //If player still has heals, function executes
         let healthRestored = this.getHeal();
         let newHealth = this.health + healthRestored;
@@ -105,18 +104,21 @@ playgame.onclick = function startGame() {
           this.health = this.maxHealth;
           document.getElementById("UI").innerHTML = `${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`;
         } else {
-          //Otherwise heals player based on getHeal function return value
+
+          //Otherwise heals player based on getHeal function random return value
           this.health = newHealth;
               document.getElementById("UI").innerHTML = `${this.name} has restored ${healthRestored} HP and now has ${this.health} HP.`;
         }
+
         //Checks amount of times healed and lets player know how many potions remain
         this.healCount++;
+        let potionsRemaining = 2 - this.healCount;
         switch(this.healCount) {
           case 1:
-            document.getElementById("UI").innerHTML = `${this.name} has used 1 potion and has 1 remaining.`;
+            document.getElementById("UI").innerHTML = `${this.name} has used 1 potion and has ${potionsRemaining} remaining.`;
             break;
           case 2: 
-            document.getElementById("UI").innerHTML = `${this.name} has used 2 potions and has 0 remaining.`;
+            document.getElementById("UI").innerHTML = `${this.name} has used 2 potions and has ${potionsRemaining} remaining.`;
             break;
           default:
             document.getElementById("UI").innerHTML = "This is the default potion message!";
@@ -126,64 +128,25 @@ playgame.onclick = function startGame() {
       }
     }
   }
+
+  //Sets up character objects and prints initial game data
   playerOne = new player(prompt("What is your name, gladiator?"));
   cpu = new character("Grant Chirpus");
   doBattle = 1;
+  document.getElementById("UI").innerHTML = ``;
 
   updateGame();
 
-<<<<<<< HEAD
-  // document.getElementById("playername").innerHTML = playerOne.name;
-  // document.getElementById("playerhealth").innerHTML = `${playerOne.name} Health: ${playerOne.health}`;
-  // document.getElementById("playerheals").innerHTML = `${playerOne.name} Heals Used: ${playerOne.healCount}`;
-  // document.getElementById("userwins").innerHTML = `${playerOne.name} Wins: ${playerOne.wins}`;
-
-  // document.getElementById("cpuname").innerHTML = cpu.name;
-  // document.getElementById("cpuhealth").innerHTML = `${cpu.name} Health: ${cpu.health}`;
-
-  //   document.getElementById("UI").innerHTML = "Let's Battle!";
-
     
-=======
->>>>>>> 67ae9b9fc6d950ffea0aefcaa15be10deae9e655
+  //If player does not want to play the game, outputs message, recalls 'Start' button and quits main playGame state
   } else {
     document.getElementById("UI").innerHTML = "What a little chicken! Bwaaak!";
     return false;
     // display message, keep start button visible
   }
 }
-// end of startGame function
 
-
-
-// called by playButtons with arguments
-
-// function startCombat(action){
-//   if (playerOne.health > 0 && cpu.health > 0 && doBattle) {
-//     console.log(action);
-//     if(action === "quit"){
-//       console.log("What a little chicken.");
-//     }
-//     else if (action === "heal"){
-//       playerOne.heal();
-//     }
-//   } else {
-//     console.log("game over");
-//   }
-// }
-
-// called by startCombat function via ATTACK btn, determines who will attack
-// function selectAttack(){
-//   let randomNum = Math.random(0,1);
-//   if (randomNum > 0.5) {
-//    playerOne.attack();
-//   } else {
-//     cpu.attack();
-//   }
-// } 
-
-
-//  Initializes the attack button
+//  Initializes the attack button event
 var attackbutton = document.getElementById("attackbutton");
 
 
@@ -203,12 +166,12 @@ else {
   } else {
     cpu.attack();
   }
- // updateGame();
+  updateGame();
 }
 }
 
 
-//  Initializes the heal button
+//  Initializes the heal button event
 var healbutton = document.getElementById("healbutton");
 
 healbutton.onclick = function() {
@@ -217,7 +180,6 @@ healbutton.onclick = function() {
 
 function heal2() {
 
-<<<<<<< HEAD
   if (!doBattle) {
   return;
   }
@@ -225,12 +187,9 @@ else {
   playerOne.heal();
   updateGame();
   }
-=======
-  // updateGame();
->>>>>>> 67ae9b9fc6d950ffea0aefcaa15be10deae9e655
 }
 
-// Initializes the quit game button
+// Initializes the quit game button event
 var quitbutton = document.getElementById("quitbutton");
 
 quitbutton.onclick = function() {
@@ -241,9 +200,14 @@ function quit2() {
 
   doBattle = 0;
   document.getElementById("UI").innerHTML = `Game Over! You decided to run away from Grant Chirpus to live to die another day.`;
+  let startEl = document.getElementById('startButton');
+  startEl.style.display = "flex";
   updateGame();
 }
 
+
+
+//  Updates the screen text after each round. 
 function updateGame() {
 
   document.getElementById("playername").innerHTML = playerOne.name;
@@ -253,88 +217,37 @@ function updateGame() {
 
   document.getElementById("cpuname").innerHTML = cpu.name;
   document.getElementById("cpuhealth").innerHTML = `${cpu.name} Health: ${cpu.health}`;
-<<<<<<< HEAD
 
   endRoundCheck();
 }
 
-// var endRound = document.getElementById()
+
 
 function endRoundCheck() {
+
   //Checks user to see if GAME OVER
 if(playerOne.health < 1) {
   document.getElementById("UI").innerHTML = `You won ${playerOne.wins} rounds against Grant Chirpus but lost the war!`;
-  startEl = document.getElementById('startButton');
-  startEl.style.display = "block";
+  let startEl = document.getElementById('startButton');
+  startEl.style.display = "flex";
   doBattle = 0;
 }
 
+//  Outputs if player has beating CPU 1 or 2 times. If user did not die, give them 1 more vistory and reset Grant's HP to 10
 else if (playerOne.health > 0 && cpu.health < 1 && playerOne.wins < 2) {
   document.getElementById("UI").innerHTML = `You have stunned Grant Chirpus! But wait, he's rising again!`;
   playerOne.wins++;
   cpu.heal();
 }
-//If user did not die, give them 1 more vistory and reset Grant's HP to 10
+
+//  If player has made it to 3 vistories, output winning message
 else if (playerOne.health > 0 && cpu.health < 1 && playerOne.wins === 2) {
   ++playerOne.wins;
   document.getElementById("UI").innerHTML = `You have defeated the undefeatable Grant Chirpus!`;
-  startEl = document.getElementById('startButton');
-  startEl.style.display = "block";
+  let startEl = document.getElementById('startButton');
+  startEl.style.display = "flex";
   doBattle = 0;
     }
   }
-
-
+  
 })(); 
-// MAIN GAME STATE
-=======
->>>>>>> 67ae9b9fc6d950ffea0aefcaa15be10deae9e655
-
-  if( playerOne.health < 1 || cpu.health < 1) {
-    if (playerOne.health < 1){
-        document.getElementById("UI").innerHTML = `${playerOne.name} has been killed!`;
-    } else {
-        document.getElementById("UI").innerHTML = `${cpu.name} has been vanquished!`;
-    }
-    // this should be part of the update process for wins!
-  }
- 
-
-}
-// MAIN GAME STATE
-  
-  //Breaks out of while loop when one player has reached 0 HP
-//Checks user to see if GAME OVER
-/*
-if( playerOne.health < 1) {
-  console.log("\r" + "You won " + playerOne.wins + " against the invincible Grant Chirpus but have lost the war.");
-  break;
-}
-
-else if (playerOne.health > 0 && !doBattle) {
-  console.log("You ran away from your fight with Grant Chirpus. Game Over.");
-  break;
-}
-//If user did not die, give them 1 more vistory and reset Grant's HP to 10
-else {
-  playerOne.wins++;
-  console.log("Congratulations, hero, you have defeated the indefatigueable Grant Chirpus " + playerOne.wins + " times.");
-  if (playerOne.wins < 3) {
-    cpu.heal();
-    }
-  }
-}
-  
-
-  while (playerOne.wins < 3 && doBattle);
-
-  if (playerOne.wins === 3) {
-   console.log(playerOne.name + ", you have slain Grant 'apparently-not-as-strong-as-we-thought' Chirpus once and for all!");
-  }
-}
-
-//If user doesn't want to fight, display taunt
-else {
-  console.log("What a little chicken.");
-}
-*/
