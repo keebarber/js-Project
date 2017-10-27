@@ -11,6 +11,12 @@ button{
 	width: 128px;
 	font-size: 1.5em;
 }
+<<<<<<< HEAD
+=======
+#attackbutton, #healbutton, #quitbutton{
+	display: none;
+}
+>>>>>>> 67ae9b9fc6d950ffea0aefcaa15be10deae9e655
 
 .buttons {
 	display: none;
